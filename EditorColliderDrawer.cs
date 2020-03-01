@@ -5,11 +5,29 @@ namespace UniLib
 {
 	public static class EditorColliderDrawer
 	{
-		private static readonly Color Color = new Color(0, 0.5f, 0.5f, 1f);
+		private const string MENU_PATH = "Tools/Show All Collider";
+		
+		[MenuItem(MENU_PATH)]
+		static void MenuAction()
+		{
+			EditorPrefs.SetBool(MENU_PATH, !EditorPrefs.GetBool(MENU_PATH, false));
+		} 
+
+		[MenuItem(MENU_PATH, true)]
+		static bool MenuValidate()
+		{
+			Menu.SetChecked(MENU_PATH, EditorPrefs.GetBool(MENU_PATH, false));
+			return true;
+		}
+		
+		private static readonly Color Color = new Color(1f, 0f, 1f, 1f);
 		
 		[DrawGizmo(GizmoType.NotInSelectionHierarchy)]
 		private static void DrawBoxCollider2D(BoxCollider2D collider, GizmoType type)
 		{
+			if (!EditorPrefs.GetBool(MENU_PATH, false))
+				return;
+			
 			Gizmos.color = Color;
 			Gizmos.DrawLine(collider.bounds.min, new Vector3(collider.bounds.max.x, collider.bounds.min.y, collider.bounds.min.z));
 			Gizmos.DrawLine(collider.bounds.min, new Vector3(collider.bounds.min.x, collider.bounds.max.y, collider.bounds.min.z));
@@ -20,6 +38,9 @@ namespace UniLib
 		[DrawGizmo(GizmoType.NonSelected)]
 		private static void DrawCircleCollider2D(CircleCollider2D collider, GizmoType type)
 		{
+			if (!EditorPrefs.GetBool(MENU_PATH, false))
+				return;
+
 			Handles.color = Color;
 			Handles.DrawWireArc(collider.bounds.center, Vector3.forward, Vector3.up * collider.radius, 360f, collider.radius);
 		}
@@ -27,6 +48,9 @@ namespace UniLib
 		[DrawGizmo(GizmoType.NonSelected)]
 		private static void DrawCapsuleCollider2D(CapsuleCollider2D collider, GizmoType type)
 		{
+			if (!EditorPrefs.GetBool(MENU_PATH, false))
+				return;
+
 			Handles.color = Color;
 			var sideHeight = (collider.size.y - collider.size.x) / 2f;
 			var circleHeight = (collider.size.x - collider.size.y) / 2f; 
@@ -68,6 +92,9 @@ namespace UniLib
 		[DrawGizmo(GizmoType.NonSelected)]
 		private static void DrawPolygonCollider2D(PolygonCollider2D collider, GizmoType type)
 		{
+			if (!EditorPrefs.GetBool(MENU_PATH, false))
+				return;
+
 			Gizmos.color = Color;
 			for (var i = 0; i < collider.pathCount; i++)
 			{
@@ -85,6 +112,9 @@ namespace UniLib
 		[DrawGizmo(GizmoType.NonSelected)]
 		private static void DrawMeshCollider(MeshCollider collider, GizmoType type)
 		{
+			if (!EditorPrefs.GetBool(MENU_PATH, false))
+				return;
+
 			if (collider.sharedMesh == null)
 				return;
 
@@ -95,6 +125,9 @@ namespace UniLib
 		[DrawGizmo(GizmoType.NonSelected)]
 		private static void DrawSphereCollider(SphereCollider collider, GizmoType type)
 		{
+			if (!EditorPrefs.GetBool(MENU_PATH, false))
+				return;
+
 			Gizmos.color = Color;
 			Gizmos.DrawWireSphere(collider.center + collider.transform.position, collider.radius);
 		}
@@ -102,6 +135,9 @@ namespace UniLib
 		[DrawGizmo(GizmoType.NonSelected)]
 		private static void DrawBoxCollider(BoxCollider collider, GizmoType type)
 		{
+			if (!EditorPrefs.GetBool(MENU_PATH, false))
+				return;
+
 			Gizmos.color = Color;
 			Gizmos.DrawLine(collider.bounds.min, new Vector3(collider.bounds.max.x, collider.bounds.min.y, collider.bounds.min.z));
 			Gizmos.DrawLine(collider.bounds.min, new Vector3(collider.bounds.min.x, collider.bounds.max.y, collider.bounds.min.z));
@@ -138,6 +174,9 @@ namespace UniLib
 		[DrawGizmo(GizmoType.NonSelected)]
 		private static void DrawCapsuleCollider(CapsuleCollider collider, GizmoType type)
 		{
+			if (!EditorPrefs.GetBool(MENU_PATH, false))
+				return;
+
 			var top = collider.center;
 			var bottom = collider.center;
 			top.y += collider.height / 2f - collider.radius;
