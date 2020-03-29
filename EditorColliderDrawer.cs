@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace UniLib
+namespace Yorozu
 {
 	public static class EditorColliderDrawer
 	{
